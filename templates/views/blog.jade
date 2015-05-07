@@ -1,0 +1,105 @@
+extends ../layouts/default
+
+mixin post(post)
+    br
+    atricle
+        .post(data-ks-editable=editable(user, { list: 'Post', id: post.id })).text-center
+            h2(style="margin-top:27px;margin-bottom:5px;padding:0;"): a.post-title(href='/blog/post/' + post.slug)= post.title
+            p
+                span.text-muted
+                    if post.categories && post.categories.length
+                        each cat, i in post.categories
+                            a.btn.btn-xs.post-category(href='/blog/' + cat.key, style="margin-bottom:5px;padding:0 4px;")= cat.name
+                            if i < post.categories.length - 1
+                                | , 
+                            else
+                                |  
+            
+
+            .row
+                .col-sm-10.col-sm-offset-1.text-justify
+                    if post.publishedDate
+                        .text-right
+                            small.text-muted #{post._.publishedDate.format('DD MMMM YYYY')}
+                    hr.hr1
+                    p!= post.content.brief.html
+                    if post.image.exists
+                        .text-center
+                            br
+                            img(src=post._.image.fit(550,350)).img.img-thumbnail.img-center.img-responsive
+
+                    
+                    if post.content.extended
+                        p.text-center.read-more: a.btn.btn-sm.post-read(href='/blog/post/' + post.slug): strong Читать далее..
+            br
+            br
+block intro
+    .container
+        .row
+            //- .col-sm-7.col-md-8.col-sm-offset-1.col-md-offset-1
+            .col-sm-8.col-md-9
+                h1= data.category ? 'Blog - ' + data.category.name : 'Blog'
+                hr
+        br
+        
+
+block content
+    .container: .row
+        //- .col-sm-7.col-md-8.col-sm-offset-1.col-md-offset-1
+        .col-sm-9.col-md-10
+            if filters.category && !data.category
+                h3.text-muted Invalid Category.
+            else
+                if data.posts.results.length
+                    .blog
+                        -var i = 1
+                        each post in data.posts.results
+                            -var odd = (i % 2 == 0)
+                            .row(class=odd ? 'odd' : null): .col-sm-12
+                                +post(post)
+                            -i=i+1 
+                            
+                    
+                    if data.posts.totalPages > 1
+                        ul.pagination
+                            if data.posts.previous
+                                li: a(href='?page=' + data.posts.previous): span.entypo.entypo-chevron-thin-left
+                            else
+                                li.disabled: a(href='?page=' + 1): span.entypo.entypo-chevron-thin-left
+                            each p, i in data.posts.pages
+                                li(class=data.posts.currentPage == p ? 'active' : null)
+                                    a(href='?page=' + (p == '...' ? (i ? data.posts.totalPages : 1) : p ))= p
+                            if data.posts.next
+                                li: a(href='?page=' + data.posts.next): span.entypo.entypo-chevron-thin-right
+                            else
+                                li.disabled: a(href='?page=' + data.posts.totalPages): span.entypo.entypo-chevron-thin-right
+                    br
+                    br
+                    br
+                    .kite.kite--center
+                        .kite__item: img.top-ad(src="holder.js/200x40/#f8f8f8:#ddd/text:Реклама")
+                        .kite__item: img.top-ad(src="holder.js/200x40/#f8f8f8:#ddd/text:Реклама")
+                        .kite__item: img.top-ad(src="holder.js/200x40/#f8f8f8:#ddd/text:Реклама")
+                else
+                    if data.category
+                        h3.text-muted There are no posts in the category #{data.category.name}.
+                    else
+                        h3.text-muted There are no posts yet.
+        
+        if data.categories.length
+            .col-sm-3.col-md-2.hidden-xs
+                .row(style="margin-top:-65px;"):.col-sm-12
+                    ul.list-unstyled
+                        li: h4.right-ad Кактегории
+                        //- hr
+                        
+                        li: .list-group.right-ad
+                                a(href='/blog', class=!data.category ? 'active' : false).list-group-item:= __('All Categories')
+                                each cat in data.categories
+                                    a(href='/blog/' + cat.key, class=data.category && data.category.id == cat.id ? 'active' : false).list-group-item= cat.name
+block js
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+    script.
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");
+        
+                    

@@ -1,0 +1,86 @@
+mixin footer() 
+    
+    //- .rel
+        //- .img-abs.path2
+    .container.padding-left-50.padding-right-50
+        #footer
+            hr.margin-bottom-10
+            .row.rel
+                //- .img-abs.lamp.hidden-xs
+                .col-sm-12
+                    .kite--justify
+                        .kite__item
+                            h5.text-black Информация
+                            ul.list-unstyled
+                                li: a.footer(href="/about") Что такое ETLT?
+                                li: a.footer(href="/search-people") Ищу помощников
+                                li: a.footer(href="/faq") FAQ
+                        .kite__item
+                            h5.text-black Помощь
+                            ul.list-unstyled
+                                li: a.footer(href="/order-details") Как сделать заказ?
+                                li: a.footer(href="/delivery-details") Все о доставке
+                                li: a.footer(href="/payment-details") Как оплатить заказ?
+                        .kite__item
+                            h5.text-black Условия и требования
+                            ul.list-unstyled
+                                li: a.footer(href="/partners") Сотрудничество
+                                li: a.footer(href="/conditions") Условия использования
+                        .kite__item
+                            h5.text-black Социальные сети
+                            ul.list-unstyled
+                                li: a.footer(href="http://fb.com/etltjewelry") Facebook
+                                li: a.footer(href="http://vk.com/etltjewelry") VK
+                                li: a.footer(href="http://instagram.com/etltjewelry") Instagram
+                    hr.margin-bottom-10
+            .row.rel
+                .col-sm-12
+                    .kite--justify.kite-social
+                        .kite__item.hidden-xs
+                                br
+                                .kite--left
+                                    if user
+                                        if user.canAccessKeystone
+                                            .kite__item: a.btn.btn-link.category.padding-5.btn-skew.btn-sm(href='/keystone'):=__('Dashboard')
+                                            .kite__item: a.btn.btn-link.category.padding-5.btn-skew.btn-sm(href='/keystone/signout'):=__('Sign Out')
+                                    else
+                                        .kite__item: a.btn.btn-link.category.padding-5.btn-skew.btn-sm(href='/keystone/signin'):=__('Sign In')
+                                    
+                        .kite__item
+                            br
+                            br
+                            .kite--justify(style='margin:-10px 0 0 0px !important;')
+                                .kite__item(style='margin-right:5px;'): a.black(href="mailto:dashamatsay@gmail.com"): i.fa.fa-envelope-o.fa-3x
+                                .kite__item: a.black(href="http://fb.com/etltjewelery"): i.fa.fa-facebook-square.fa-3x
+                                .kite__item: a.black(href="http://vk.com/etltjewelery"): i.fa.fa-vk.fa-3x
+                                .kite__item: a.black(href="http://instagram.com/etltjewelery"): i.fa.fa-instagram.fa-3x
+                        .kite__item.hidden-xs
+                            p: h6 Выберите язык
+                            .kite--right
+                                
+                                .kite__item.hint--bottom(class=( getLocale() == 'en' ? 'active' : null ), style="margin-left:-5px;"): a.lead.black(href='/lang/en', alt='English', tooltip="English") ENG
+                                
+                                .kite__item.hint--bottom(class=( getLocale() == 'ru' ? 'active' : null )): a.lead.black(href='/lang/ru', alt='Русский', tooltip="Русский") РУС
+                //- h6.hidden-xs.text-center(style="margin:-20px -30px 0 0 !important;")
+                //-     | designed by  <a class='uppercase category no-padding' href="http://fb.com/ovchinnikov.nikolai" target="Ovchinnikov Nikolai">Ovchinnikov.Nikolai</a>
+mixin footer-index() 
+    
+    .container#bottom.padding-left-50.padding-right-50
+        #footer
+            .row.rel
+                p
+                    .kite--justify.kite-social
+                        .kite__item
+                            br
+                            .kite--justify(style='margin:-10px 0 0 0px !important;')
+                                .kite__item(style='margin-right:5px;'): a.black(href="mailto:dashamatsay@gmail.com"): i.fa.fa-envelope-o.fa-3x
+                                .kite__item: a.black(href="http://fb.com/etltjewelery"): i.fa.fa-facebook-square.fa-3x
+                                .kite__item: a.black(href="http://vk.com/etltjewelery"): i.fa.fa-vk.fa-3x
+                                .kite__item: a.black(href="http://instagram.com/etltjewelery"): i.fa.fa-instagram.fa-3x
+                        .kite__item.hidden-xs
+                            br
+                            .kite--right
+                                .kite__item.hint--bottom(class=( getLocale() == 'en' ? 'active' : null ), style="margin-left:-5px;"): a.lead.black(href='/lang/en', alt='English', tooltip="English") ENG
+                                
+                                .kite__item.hint--bottom(class=( getLocale() == 'ru' ? 'active' : null )): a.lead.black(href='/lang/ru', alt='Русский', tooltip="Русский") РУС
+    

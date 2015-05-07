@@ -1,0 +1,132 @@
+extends ../layouts/default
+include ../mixins/product
+
+block breadcrumb
+    .container: .row
+        .col-sm-12
+            ol.breadcrumb
+                li: a(href="/") Главная 
+                li: a(href="/shop") Магазин
+                if data.type
+                    li: a(href="/shop" + (data.type? "/type=" + data.type.key: "")):=data.type.title
+                if data.product.category
+                    li: a(href="/shop" + (data.type? "/type=" + data.type.key: "") + (data.product.category? "/category=" + data.product.category.key: "")):=data.product.category.title 
+block content
+    .container: .row: .col-sm-12
+        article.simpleCart_shelfItem
+            .row
+                .col-sm-11.col-sm-offset-1.col-md-9.col-md-offset-1
+                    .col-sm-6
+                        if !data.product.title
+                            h2:=__('Invalid product')
+                        else
+                            .post#links
+                                if data.product.image.exists
+                                    br
+                                    a(href=data.product._.image.src(), title=data.product.title, data-gallery)
+                                        img.item_thumb.img-responsive(src=data.product._.image.fit(650,350))
+                                    br
+                                    if data.product.images
+                                        .kite--left
+                                            each image in data.product.images
+                                                .kite__item(style='padding:2px 4px;') 
+                                                    a(href=image.src(), title=data.product.title, data-gallery)
+                                                        img(width=162, height=120).img-responsive(src=image.fill(162,120))
+                                            
+                    .col-sm-6
+                        h2.item_name= data.product.title
+                        .kite--justify
+                            .kite__item
+                                .h4.text-muted.padding-10-0
+                                    span Код: 
+                                    span.item_code:=data.product.code
+                                    span.item_key.hidden:=data.product.id
+                            .kite__item
+                                .h4.text-muted.state(class=data.product.state=='exist'? 'state-exist' : null)
+                                    span.extrabold:=data.product._.state.format()
+                        hr.hr1
+                        h2
+                            if data.product.price_sale>0
+                                .price-old
+                                    span.item_price 
+                                        span #{data.product.price_common} 
+                                    small .00 UAH
+                                .price-sale
+                                    strong.item_price2 #{data.product.price_sale}<small>.00 UAH</small>
+                                        
+                            else if data.product.state!='sample'
+                                .price
+                                    strong.item_price:=data.product.price_common
+                                    small .00 UAH
+                        br
+                        .kite--justify
+                            .kite__item
+                                strong: a.item_add.btn.btn-default.btn-lg(href="javascript:;", role="button") Купить
+                            .kite__item
+                                .kite--right
+                                    .kite__item: h4:= __('Qnty')
+                                    .kite__item
+                                        input(type="text", value=1 class="form-control",style="width:50px;margin-top:0px;height:45px;")
+                                
+                        h3:= __('Description')
+                        p: != data.product.content
+        .row
+            .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1.col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1
+                br
+                br
+                h2 Возможно Вам интересно
+                hr
+                br
+                br
+                .kite.kite--left
+                    if data.products
+                        each product in data.products
+                            .kite__item
+                                +product(product)
+                    else
+                        h4.text-muted Не найдено похожих товаров
+                        br
+                        br
+                hr
+block gallery
+    #blueimp-gallery.blueimp-gallery.blueimp-gallery-controls
+        .slides
+        h3.title
+        a.prev ‹
+        a.next ›
+        a.close ×
+        a.play-pause
+        ol.indicator
+        .modal.fade
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button(type="button", class="close", aria-hidden="true") ×
+                        h4.modal-title
+                    .modal-body.next
+                    .modal-footer
+                        button(type="button", class="btn btn-default pull-left prev")
+                            i.glyphicon.glyphicon-chevron-left
+                            span  Previous
+                        button(type="button", class="btn btn-primary next")
+                            span Next
+                            i.glyphicon.glyphicon-chevron-right
+
+
+block js
+    script(src='/js/vendor/simpleCart/simpleCart.js')
+    script(src='/js/cart.js')
+    
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex.css")
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex-theme-wireframe.css")
+    script(src="/js/vendor/vex/js/vex.js")
+    script(src="/js/vendor/vex/js/vex.dialog.js")
+    
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+    
+    link(href="/styles/vendor/blueimp/css/blueimp-gallery.min.css", rel="stylesheet")
+    script(src='/styles/vendor/blueimp/js/blueimp-gallery.min.js')
+    script(src='/js/gallery.js')
+    script.
+        vex.defaultOptions.className = 'vex-theme-wireframe';
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");

@@ -1,0 +1,25 @@
+extends ../layouts/email
+
+block css
+        
+block content
+    p.justify.lead #{order.name.first}, Ваш заказ отправлен!
+    p.no-margin.left
+        | Ваш номер заказа №
+        | <a href="http://etlt.com.ua/order/#{order.slug}">#{order.slug}</a>
+        |  полученый 
+        | <strong>#{order._.createdAt.format('DD.MM.YYYY')}</strong>
+        |  через магазин 
+        | <a href="http://etlt.com.ua/">ETLT.com.ua</a>
+        | отправлен почтовой службой 
+        |  <code>#{order.numberNewMail}</code>
+        p.left
+            .comment #{order.shopComment}
+        p.left
+            span 
+                | Статус заказа : 
+                | <code>#{order._.status.format()}</code>
+    p.left.lead Отправленный заказ 
+        p !{order.lockProducts}
+        p.justify Спасибо за заказ!
+        

@@ -1,0 +1,42 @@
+{
+	"Hello": "Вiтаю",
+	"%s cat": {
+		"one": "%s cat",
+		"other": "%s cats"
+	},
+	"There is one monkey in the %%s": {
+		"one": "There is one monkey in the %%s",
+		"other": "There are %d monkeys in the %%s"
+	},
+	"Home": "Головна",
+	"Blog": "Блог",
+	"Gallery": "Галерея",
+	"Contact": "Зв'язок",
+	"About": "Про мене",
+	"Shop": "Магазин",
+	"How I work": "Як я працюю",
+	"Deatils": "Умови",
+	"Order details": "Умови замовлення",
+	"Delivery details": "Умови доставки",
+	"Lease details": "Умови аренди",
+	"Name": "Name",
+	"Email": "Email",
+	"Phone": "Phone",
+	"What are you contacting us about?": "What are you contacting us about?",
+	"Contact Us": "Contact Us",
+	"Message": "Message",
+	"Leave us a message...": "Leave us a message...",
+	"Send": "Send",
+	"lease details": "lease details",
+	"Dashboard": "Dashboard",
+	"Sign Out": "Sign Out",
+	"Sign In": "Sign In",
+	"back to the blog": "back to the blog",
+	"Payment details": "Payment details",
+	"Cart": "Cart",
+	"back to shop": "back to shop",
+	"Способ оплаты": "Способ оплаты",
+	"Способ доставки": "Способ доставки",
+	"All": "All",
+	"All Categories": "All Categories"
+}

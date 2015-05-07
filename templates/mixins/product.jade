@@ -1,0 +1,93 @@
+
+
+mixin product(product)
+        .simpleCart_shelfItem.tile(class=product.Indicator)
+            .post(data-ks-editable=editable(user, { list: 'Product', id: product.id }))
+                a.product_item(href='/shop/product/' + product.id)
+                    img.img-responsive.item_thumb(src=product._.image.fill(150,190))
+                    .code-xs.uppercase
+                        span.item_code:=product.code
+                        span.item_key.hidden:=product.id
+                    .state-xs.uppercase(class=product.state=='exist'? 'state-exist-xs' : null): =product._.state.format()
+                    .item_name: =product.title 
+                    .kite--justify(style="margin:3px 10px;")
+                        if product.state=='exist'
+                            .kite__item
+                                if product.price_sale>0
+                                    .price-old
+                                        span.item_price #{product.price_common} грн
+                                    .price-sale
+                                        span.item_price2:=product.price_sale
+                                        span.item_currency грн
+                                else
+                                    .price
+                                        span.item_price:=product.price_common
+                                        span.item_currency грн
+
+                            .kite__item: a.item_add.btn-default.btn-xs(href='javascript:;', role="button", data-item-id=product.id, data-item-name=product.title, data-item-code=product.code, data-item-price=product.price_common, data-item-thumb=product._.image.fill(150,190)) В корзину
+                        
+                        else if product.state!='sample'
+                            .kite__item
+                                if product.price_sale>0
+                                    .price-old
+                                        span.item_price #{product.price_common} грн
+                                    .price-sale
+                                        span.item_price2:=product.price_sale
+                                        span.item_currency грн
+                                else
+                                    .price
+                                        span от 
+                                        span.item_price:=product.price_common
+                                        span.item_currency грн
+                            .kite__item: a.item_order.btn-default.btn-xs(href='javascript:;', role="button", data-item-id=product.id, data-item-name=product.title, data-item-code=product.code, data-item-price=product.price_common, data-item-thumb=product._.image.fill(150,190)) Заказать
+
+mixin product-square(product)
+    .simpleCart_shelfItem.tile(class=product.Indicator)
+        .post(data-ks-editable=editable(user, { list: 'Product', id: product.id }))
+            a.product_item(href='/shop/product/' + product.id)
+                img.img-responsive.item_thumb(src=product._.image.fill(150,150))
+                .code-xs.uppercase
+                    i.fa.fa-key.fa-flip-horizontal  
+                    span   
+                    span.item_code:=product.code
+                    span.item_key.hidden:=product.id
+                .state-xs.uppercase(class=product.state=='exist'? 'state-exist-xs' : null): =product.state
+                .item_name: =product.title 
+                .kite--justify(style="margin:3px 10px;")
+                    if product.state=='exist'
+                        
+
+                        .kite__item
+                            if product.price_sale>0
+                                .price-old
+                                    span.item_price #{product.price_common} грн
+                                .price-sale
+                                    span.item_price2:=product.price_sale
+                                    span.item_currency грн
+                            else
+                                .price
+                                    span.item_price:=product.price_common
+                                    span.item_currency грн
+                        .kite__item: a.item_add.btn-default.btn-xs(href='javascript:;', role="button") В корзину
+                    else if product.state!='sample'
+                        .kite__item
+                            if product.price_sale>0
+                                .price-old
+                                    span.item_price #{product.price_common} грн
+                                .price-sale
+                                    span.item_price2:=product.price_sale
+                                    span.item_currency грн
+                            else
+                                .price
+                                    span от 
+                                    span.item_price:=product.price_common
+                                    span.item_currency грн
+                        .kite__item: a.item_order.btn-default.btn-xs(href='javascript:;', role="button") Заказать
+
+
+
+
+                        
+                    
+                                
+                

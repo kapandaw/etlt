@@ -1,0 +1,63 @@
+extends ../layouts/default
+
+block content
+    .container: .row: .col-sm-12
+        article
+            p: a.category(href='/blog') &larr; #{__('back to the blog')}
+            hr
+            .row:.col-sm-10.col-sm-offset-1.col-md-10.col-md-offset-1.text-center
+                if !data.post
+                    h2 Invalid Post.
+                else
+                    header
+                        h1= data.post.title
+                        h5 
+                            if data.post.publishedDate
+                                | -= #{data.post._.publishedDate.format('DD.MM.YYYY')} =-
+                        if data.post.categories && data.post.categories.length
+                            each cat, cat_i in data.post.categories
+                                a.btn.btn-xs.post-category(href='/blog/' + cat.key)= cat.name
+                                if cat_i < data.post.categories.length - 1
+                                    | , 
+                                else
+                                    |  
+                        br
+                        br
+                    .post
+                        if data.post.image.exists
+                            .image-wrap: img(src=data.post._.image.fit(750,450)).img-thumbnail.img-center.img-responsive
+                        br
+                        br
+                        != data.post.content.extended.html
+                        br
+                        hr.hr1
+                        br
+block gallery
+    #blueimp-gallery.blueimp-gallery.blueimp-gallery-controls
+        .slides
+        h3.title
+        a.prev ‹
+        a.next ›
+        a.close ×
+        a.play-pause
+        ol.indicator
+        .modal.fade
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button(type="button", class="close", aria-hidden="true") ×
+                        h4.modal-title
+                    .modal-body.next
+                    .modal-footer
+                        button(type="button", class="btn btn-default pull-left prev")
+                            i.glyphicon.glyphicon-chevron-left
+                            span  Previous
+                        button(type="button", class="btn btn-primary next")
+                            span Next
+                            i.glyphicon.glyphicon-chevron-right
+
+block js
+    link(href="/styles/vendor/blueimp/css/blueimp-gallery.min.css", rel="stylesheet")
+    script(src='/styles/vendor/blueimp/js/blueimp-gallery.min.js')
+    script(src='/js/gallery.js')
+    

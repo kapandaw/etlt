@@ -1,0 +1,51 @@
+extends ../layouts/email
+
+block css
+        
+block content
+    p.justify.lead #{order.name.first}, Ваш заказ подтвержден!
+    p.no-margin.left
+        | Ваш номер заказа №
+        | <a href="http://etlt.com.ua/order/#{order.slug}">#{order.slug}</a>
+        |  получен 
+        | <strong>#{order._.createdAt.format('DD.MM.YYYY')}</strong>
+        |  через магазин 
+        | <a href="http://etlt.com.ua/">ETLT.com.ua</a>
+        | . Вы выбрали способ оплаты 
+        | <code>#{order._.paymentType.format()}</code>
+        | и способ доставки  
+        | <code>#{order._.deliveryType.format()}</code>
+        p.left
+            span Ваш комментарий к заказу
+            .comment #{order.deliveryComment}
+        p.left
+            span Ваше уточнение к доставке
+            .comment #{order.orderComment}
+        p.left
+            span 
+                | Статус заказа : 
+                | <code>#{order._.status.format()}</code>
+        hr
+        p.left
+            p.left Ваш заказ будет отправлен после 100% предоплаты стоимости изделия по реквизитам: 
+            .account
+                .row <i>Карта ПриваБанк</i> <code>5168 7572 3238 0255</code>
+                .row <i>Овчинникова Дарья Игоревна</i>
+                .row <small> тел/whatsup/viber <code>+38(050) 530-03-19</code></small>
+
+            p.left После оплаты заказа обязательно сообщите нам по электронной почте (ответным письмом) или с помощью смс о факте перевода и мы сразу же отправим Ваш заказ. Пожалуйсте, не забывайте сообщать нам об оплате, иначе мы не сможем идентифицировать Ваш платеж.
+    p.left.lead Заказ 
+        p !{order.lockProducts}
+        ul.total
+            li
+                span.left Сумма заказа:
+                span.right.bold #{order._.totalCost.format('0,0.0')} грн
+            li
+                span.left Доставка:
+                span.right.bold #{order._.deliveryCost.format('0,0.0')} грн
+            li
+                span.left.bold К оплате:
+                span.right.bold #{order._.grandTotalCost.format('0,0.0')} грн
+        hr
+        p.justify Это письмо является подтверждением что заказ поступил в очередь и я с Вами в скором времени свяжусь, возможно Вы захотите уточнить детали заказа или доставки.
+        

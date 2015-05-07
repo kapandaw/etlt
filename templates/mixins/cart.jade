@@ -1,0 +1,53 @@
+mixin cart()
+    .cart-container
+        .cart
+            .kite--justify(style="margin:0 10px;")
+                .kite__item: h3: a.category(href='/checkout',style="color:#000;"):=__('Cart')
+                .kite__item: .kite--right: .kite__item: a.btn.btn-sm.simpleCart_empty(href="javascript:;") X
+            
+            #cart-container
+                #cart
+                    p.text-muted.margin-left-10.margin-right-10
+                        strong.text-danger Помните! 
+                        span После оформление покупки я всегда связываюсь со своими клиентами для уточнения Ваших личных предпочтений
+                        
+                    hr.hr1
+                    #shopping-cart-div-lg.simpleCart_items
+                    hr.hr1
+                    .kite--right
+                        .kite__item: .simpleCart_total_caption Итого:
+                        .kite__item: .simpleCart_total
+                    .kite--right
+                        .kite__item: .simpleCart_shipping_caption Доставка:
+                        .kite__item: .simpleCart_shipping 
+                    .kite--right
+                        .kite__item: .simpleCart_grandTotal_caption Всего:
+                        .kite__item: .simpleCart_grandTotal
+
+                    a.btn.btn-block.btn-md.btn-primary.simpleCart_checkout(href='/checkout')
+                        i.fa.fa-magic.margin-top-5
+                        span   Оформить
+mixin order()
+    .cart-container
+        .cart
+            .kite--justify(style="margin:0 10px;")
+                .kite__item: h3: a.category(href='/checkout',style="color:#000;"):=__('Cart')
+                .kite__item: .kite--right: .kite__item: a.btn.btn-sm.orderCart_empty(href="javascript:;") X
+            
+            #order-container
+                #order
+                    p.text-muted.margin-left-10.margin-right-10
+                        strong.text-danger Помните! 
+                        span После оформление покупки я всегда связываюсь со своими клиентами для уточнения Ваших личных предпочтений
+                        
+                    hr.hr1
+                    #order-cart-div-lg.orderCart_items
+                    
+
+                    
+
+mixin cart-right()
+    .cart-container
+        .cart
+            #cart-container-right
+        

@@ -1,0 +1,16 @@
+extends ../layouts/email
+
+block content
+        p.justify.lead Меня зовут #{enquiry.name.first}!
+        p.no-margin.left
+            if enquiry.email
+                p.left Мой email: <a href="mailto:#{enquiry.email}">#{enquiry.email}</a>
+            if enquiry.phone
+                p.left Мой телефон: #{enquiry.phone}
+            if enquiry.enquiryType
+                p.left Мой вопрос на тему: #{enquiry._.enquiryType.format()}
+            hr
+            if enquiry.message
+                p.left Я хотел(а) бы узнать:
+                p.left !{enquiry.message.html}
+        

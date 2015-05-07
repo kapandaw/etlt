@@ -1,0 +1,12 @@
+extends ../../layouts/default
+
+block content
+	.container.text-justify
+        .row
+            .col-sm-9.col-sm-offset-1.col-xs-12
+				h1:=__('Error (500)')
+				p.lead:=__('Sorry, the site has encountered an error.')
+
+block js
+	script.
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");

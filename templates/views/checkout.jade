@@ -1,0 +1,274 @@
+extends ../layouts/default
+include ../mixins/product
+include ../mixins/cart
+
+block css
+    style.
+        #cd-cart-trigger, #showRightPush{
+            display:none;
+        }
+
+
+        
+block content
+    .container
+        .row
+            .col-sm-12
+                hr
+                br
+                br
+        
+        .row
+            .col-sm-10.col-sm-offset-1
+                .cart-page
+                    .cart
+                        .kite--justify(style="margin:0 10px;")
+                            .kite__item: h1 Корзина / Оформление заказа
+                            .kite__item: .kite--right: .kite__item: a.btn.btn-lg.simpleCart_empty.margin-top-10(href="javascript;") X
+                        p.lead Оформление заказа не займет много времени, но прошу Вас детально заполните свои пожелания в полях с деталями
+                        p.text-muted.margin-left-10.margin-right-10
+                            strong.text-danger Помните! 
+                            span После оформление покупки я всегда связываюсь со своими клиентами для уточнения Ваших личных предпочтений
+                        br
+                        form(method='POST', role='form').form-checkout
+                            input(type='hidden', name='action', value='order')
+                            #additionalData
+                                input(type="hidden", name="totalCost", value='')
+                                input(type="hidden", name="deliveryCost", value='')
+                                input(type="hidden", name="grandTotalCost", value='')
+                                input(type="hidden", name="products", value='')
+                                input(type="hidden", name="lockProducts", value='')
+                            #shopping-cart-div-lg.simpleCart_items
+                            .row 
+                                .col-md-8.hidden-xs.hidden-sm
+                                    h4 Посмотрите мои новые украшения
+                                    hr
+                                    br
+                                    .kite.kite--left
+                                        if data.products
+                                            each product in data.products
+                                                .kite__item
+                                                    +product-square(product)
+                                        else
+                                            h4.text-muted Не найдено похожих товаров
+                                            br
+                                            br
+                                .col-md-4.col-sm-12
+                                    h4 Итоговый чек
+                                    hr
+                                    br
+                                    .kite--right.alert-warning.padding-right-20
+                                        .kite__item: .simpleCart_total_caption Итого:
+                                        .kite__item: .simpleCart_total
+                                    .kite--right.alert-warning.padding-right-20
+                                        .kite__item: .simpleCart_shipping_caption Доставка:
+                                        .kite__item: .simpleCart_shipping 
+                                    .kite--right.alert-warning.padding-right-20
+                                        .kite__item: .simpleCart_grandTotal_caption Всего:
+                                        .kite__item: .simpleCart_grandTotal  
+                            .row.visible-xs
+                                .col-xs-12
+                                    h4 Посмотрите мои новые украшения
+                                    hr
+                                    br
+                                    .kite.kite--left
+                                        if data.products
+                                            each product in data.products
+                                                .kite__item
+                                                    +product-square(product)
+                                        else
+                                            h4.text-muted Не найдено похожих товаров
+                                            br
+                                            br
+                            br
+                            .row
+                                .col-sm-12
+                                    h3 Оформление заказа
+                                    hr
+                            .row
+                                .col-sm-8.col-xs-12
+                                    .form-group(class=validationErrors.name ? 'has-error' : null).big
+                                        label(for='') Ваше имя
+                                        input.form-control(type='text', name='name.full', value=formData['name.full'], placeholder='Ваше имя')
+                                    .kite--justify
+                                        .kite__item
+                                            .form-group(class=validationErrors.phone ? 'has-error' : null).big
+                                                label(for='') Мобильный телефон
+                                                input.form-control(type='text', name='phone', value=formData.phone, placeholder='380501234567', required)
+                                        .kite__item
+                                            .form-group(class=validationErrors.email ? 'has-error' : null).big
+                                                label(for='') Email
+                                                input.form-control(type='email', name='email', value=formData.email, placeholder='mymail@mail.com')
+                                .col-sm-3.col-sm-offset-1.hidden-xs
+                                    img.rotate--10.margin-top-30.img-responsive(src='/../../images/notebook.png')
+                            .row
+                                .col-sm-12
+                                    .form-group.big
+                                        label(for='') Детали заказа
+                                        textarea.form-control(type='text', name='orderComment', placeholder='Напишите комментарий к заказу', rows=4)=formData.orderComment
+                                br
+                                br
+                            .row
+                                .col-sm-12
+                                    h3 Способы доставки и оплаты
+                                    hr
+                            .row
+                                .col-sm-3.col-sm-offset-1.hidden-xs
+                                    img.rotate-90.margin-top-30.img-responsive(src='/../../images/envelope.png')
+                                .col-sm-7.col-sm-offset-1.col-xs-12
+                                    .form-group(class=validationErrors.paymentType ? 'has-error' : null).big
+                                        label:=__('Способ оплаты')
+                                        select(name='paymentType').form-control
+                                            option(value='') Выберите способ оплаты
+                                            each type in paymentTypes
+                                                option(value=type.value, selected=formData.paymentType == type.value)= type.label
+                                    
+                                    .form-group(class=validationErrors.deliveryType ? 'has-error' : null).big
+                                        label:=__('Способ доставки')
+                                        select#shippingType(name='deliveryType').form-control
+                                            option(value='') Выберите способ доставки
+                                            each type in deliveryTypes
+                                                option(value=type.value, selected=formData.deliveryType == type.value)= type.label
+                                    .form-group(class=validationErrors.deliveryCity ? 'has-error' : null).big
+                                        label(for='') Город доставки
+                                        input.form-control(type='text', name='deliveryCity', value=formData.deliveryCity, placeholder='Пример: Киев')
+                                    
+                            .row
+                                .col-sm-12
+                                    .form-group.big
+                                        label(for='') Детали доставки
+                                        textarea.form-control(type='text', name='deliveryComment', placeholder='Напишите комментарий к доставке', rows=5)=formData.deliveryComment
+                                br
+                                br
+                            .row
+                                .col-sm-12
+                                    button.simpleCart_Done.btn.btn-lg.btn-block.btn-primary(href='javascript:;', type='submit')    
+                                        i.fa.fa-thumbs-o-up.margin-top-5
+                                        span  Подтверждаю заказ
+
+                            br
+                            br
+                                        
+                                        
+block js
+    script(src='/js/vendor/simpleCart/simpleCart.js')
+    
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex.css")
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex-theme-wireframe.css")
+    script(src="/js/vendor/vex/js/vex.js")
+    script(src="/js/vendor/vex/js/vex.dialog.js")
+    
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+    script.
+        vex.defaultOptions.className = 'vex-theme-wireframe';
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg"                                                        
+    script.
+            simpleCart({
+                cartColumns: [
+                    { view:'image',             attr:'thumb',       label: false},
+                    {                           attr: "name",       label: 'Название'},
+                    { attr: "code",       label: false, className: 'hidden'},
+                    { attr: "key",        label: false, className: 'hidden'},
+                    //- {view:'link',               attr: 'pageLink',   label: ' '},
+                    { view: "money",            attr: "price",      label: 'Цена'},
+                    { view: "decrement",                            label: false},
+                    { view:'input',             attr: "quantity",   label: 'Кол-во'},
+                    { view: "increment",                            label: false},
+                    { view: "currencyAfter",    attr: "total",      label: 'Итого' },
+                    { view: "remove",           text: " ",          label: false}
+                ],
+                // "div" or "table" - builds the cart as a table or collection of divs
+                cartStyle: "table"
+               
+            });
+            
+            simpleCart.bind( 'update' , function(){
+                var items = [];
+                var order = '<table class="pure-table" border="1" cellspacing="0" cellpadding="6"><thead><tr><th></th><th>Код</th><th>Название</th><th>Цена</th><th>Кол-во</th><th><strong>Итого</strong></th></tr></thead>';
+                simpleCart.each(function(item, x) {
+                    var key = item.get("key");
+
+                    var code = item.get("code");
+                    var thumb = item.get("thumb");
+                    var title = item.get("name");
+                    var price = item.get("price");
+                    var count = item.get("quantity");
+                    var total = item.get("total");
+                    items.push(key);
+                    order += '<tr><td><img class="img-thumbnail" src="' + thumb.replace(',h_190', ',h_90').replace(',w_150', ',w_65') + '"></td><td>' + code + '</td><td>' + title + '</td><td>' + price + ' грн</td><td>' + count + ' шт</td><td><strong>' + total + ' грн</strong></td></tr>';
+                });
+                order += '</table>';
+                console.log(order);
+                $( "input[name='totalCost']" ).val(simpleCart.total());
+                $( "input[name='deliveryCost']" ).val(simpleCart.shipping());
+                $( "input[name='grandTotalCost']" ).val(simpleCart.grandTotal());
+                $( "input[name='products']" ).val(items); 
+                $( "input[name='lockProducts']" ).val(order); 
+            });
+            
+            $('.item_order').on('click', function() {
+            var id = $(this).attr("data-item-id");
+            var name = $(this).attr("data-item-name");
+            var code = $(this).attr("data-item-code");
+            var price = $(this).attr("data-item-price");
+            var thumb = $(this).attr("data-item-thumb");
+            var order = "<table class='pure-table' border='1' cellspacing='0' cellpadding='6'><thead><tr><th></th><th>Код</th><th>Название</th><th>Цена</th></tr></thead><tr><td><img class='img-thumbnail' src='" + thumb + "'</td><td>" + code + "</td><td>" + name + "</td><td>от " + price + " грн</td></tr></table>";
+
+            vex.dialog.open({
+                message: '<div class="text-left lead"><strong>Заказ на изготовление украшения</strong></div>',
+                input: '<input type="hidden" name="action" value="personal">\n<div class="text-center"><img class="order-item-thumb" src="' + thumb + '"/><div class="order-item-code">' + code + '</div><div class="order-item-name">' + name + '</div><div class="text-center"><span class="order-item-small">от</span><span class="order-item-price"> ' + price + '</span><span class="order-item-small"> грн</span></div></div>\n<input type="hidden" style="display:none" name="product" value="' + id + '" >\n<input type="hidden" style="display:none" name="order" value="' + order + '" >\n<input name="name" type="text" placeholder="Ваше имя" required >\n<input name="email" type="email" placeholder="Ваш email" required >\n<input name="phone" type="text" placeholder="Ваш телефон" required >\n<textarea name="comment" type="text" placeholder="Напишите ваши пожелания к заказу" rows=8 required >',
+                buttons: [
+                    $.extend({}, vex.dialog.buttons.YES, {
+                        text: 'Заказать'
+                    })
+                ],
+                callback: function(data) {
+                    if (data === false) {
+                        return console.log('Нет данных для отправки заказа. Отмена');
+                    }
+                    $form = $(document).find(".vex-dialog-form");
+                    $actioninput = $form.find("input[name='action']");
+                    $action = $actioninput.val();
+
+                    var posting = $.post('shop', data)
+                        .done(function() {
+                            return vex.dialog.alert("Ваш заказ успешно отправлен");
+                        })
+                        .fail(function() {
+                            return vex.dialog.alert("Произошла ошибка при отправке заказа");
+                        });
+                    }
+                });
+            });
+               
+
+
+    script.
+        $( "form" ).submit(function( event ) {
+          
+            //- var cost = $( "input[name='totalCost']" ).val();
+            //- var shipping = $( "input[name='deliveryCost']" ).val();
+            //- var total = $( "input[name='grandTotalCost']" ).val();
+            //- var order = $( "input[name='products']" ).val(); 
+            //- var lockOrder = $( "input[name='lockProducts']" ).val(); 
+          //- if (isNullAndUndef(cost) && isNullAndUndef(order) && isNullAndUndef(lockOrder))
+          //-   {
+                  var result = simpleCart.trigger("acceptEvent");
+                  //- if (result = 'success') {
+                  //-       simpleCart.empty();
+                  //- }
+            //- }
+            //- else{
+            //-     req.flash('danger', 'Не все данные сформированы, попробуйте обновить страницу.');
+            //- }
+        });
+
+
+    script.
+        $( "#shippingType" ).change(function() {
+            simpleCart.update();
+        });
+
+
+
+

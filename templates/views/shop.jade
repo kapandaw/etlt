@@ -1,0 +1,165 @@
+extends ../layouts/default
+include ../mixins/product
+
+
+
+block content
+    
+    #body 
+        .container
+            .text-center: h1 Магазин
+            hr.hr1
+            br
+            #catalog
+                .kite--justify#types
+                    .kite__item(class=(!data.type ? 'active' : null)): a.type(href="/shop") Все
+                    each type in data.types
+                        .kite__item(class=(data.type? data.type.key==type.key ? 'active' : null : null)): a.type-top(href="/shop/type="+ type.key):=type.title
+        
+            .row
+                .col-md-12
+                    if filters.category && !data.category
+                        h3.text-muted Неизвестная категория.
+                    else
+                            .row
+                                if data.categories.length
+                                    .col-md-2.hidden-xs.hidden-sm#categories
+                                        h4 Категории
+                                        ul.list-unstyled
+                                            each cat in data.categories
+                                                li.category: a.category(href="/shop/type="+ cat.type.key +"/category="+ cat.key):=cat.title
+                                                
+                                        hr.hr1
+                                        h4 Наличие
+                                        ul.list-unstyled
+                                                each st in states
+                                                    li.category: a.category(href="/shop/state="+ st.value):=st.label
+                                                
+                                        hr.hr1
+                                        h4 Наклейки
+                                        ul.list-unstyled
+                                            each ind in indicators
+                                                li.category: a.category(href="/shop/indicator="+ ind.value):=ind.label
+                                                
+                                        
+                                    .col-md-10.col-sm-12.col-xs-12.shelf
+                                            if data.products.results.length
+                                                #products-container.rel
+                                                    ul.list-inline.ul-products#products
+                                                        each product in data.products.results
+                                                            li.product
+                                                                +product(product)
+                                                            if product.islast
+                                                                hr
+                                            else
+                                                if data.category
+                                                    h3.text-muted Нет товара в разделе #{data.category.title}.
+                                                else
+                                                    if data.type
+                                                        h1:=data.type.title
+                                                    else
+                                                        h3.text-muted Ни один товар еще не добавлен.
+                                else
+                                    .col-md-2.hidden-xs.hidden-sm#categories
+                                        h4 Наличие
+                                        ul.list-unstyled
+                                                each st in states
+                                                    li.category: a.category(href="/shop/state="+ st.value):=st.label
+                                                
+                                        hr.hr1
+                                        h4 Наклейки
+                                        ul.list-unstyled
+                                            each ind in indicators
+                                                li.category: a.category(href="/shop/indicator="+ ind.value):=ind.label
+                                                
+                                        
+                                    .col-md-10.col-sm-12.col-xs-12.shelf
+                                            if data.products.results.length
+                                                #products-container.rel
+                                                    ul.list-inline.ul-products#products
+                                                        each product in data.products.results
+                                                            li.product
+                                                                +product(product)
+                                                            if product.islast
+                                                                hr
+                                            else
+                                                if data.category
+                                                    h3.text-muted Нет товара в разделе #{data.category.title}.
+                                                else
+                                                    if data.type
+                                                        h1:=data.type.title
+                                                    else
+                                                        h3.text-muted Ни один товар еще не добавлен.
+                    
+
+                        if data.products.totalPages > 1
+                            .row
+                                .col-sm-12
+                                    .text-center
+                                        ul.pagination(style="font-size:24px;")
+                                            if data.products.previous
+                                                li: a(href='?page=' + data.products.previous) &#8592;
+                                            else
+                                                li.disabled: a(href='?page=' + 1) &#8592;
+                                            each p, i in data.products.pages
+                                                li(class=data.products.currentPage == p ? 'active' : null)
+                                                    a(href='?page=' + (p == '...' ? (i ? data.products.totalPages : 1) : p ))= p
+                                            if data.products.next
+                                                li: a(href='?page=' + data.products.next) &#8594;
+                                            else
+                                                li.disabled: a(href='?page=' + data.products.totalPages) &#8594;
+                        
+                    
+
+  
+         
+block js
+    script(src='/js/vendor/simpleCart/simpleCart.js')
+    script(src='/js/cart.js')
+    
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex.css")
+    link(rel="stylesheet", href="/js/vendor/vex/css/vex-theme-wireframe.css")
+    script(src="/js/vendor/vex/js/vex.js")
+    script(src="/js/vendor/vex/js/vex.dialog.js")
+    
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+    script.
+        vex.defaultOptions.className = 'vex-theme-wireframe';
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");
+    script.
+            (function( $ ){
+                  $.fn.products_autowidth = function() {
+                    var width = $(window).width();
+                    var ul_width = $('#products-container').width();
+                            var li_width = 193.563;
+                            var new_count = Math.floor(ul_width/li_width);
+                    if (width>368) {
+                            var new_width = (new_count*205);
+                            $(this).css({ 'width': new_width + 'px' });
+                        }
+                    else{
+                            var new_width = (new_count*175);
+                            $(this).css({ 'width': new_width + 'px' });
+                    }
+                  };
+                })( jQuery );
+                $( window ).resize(function() {
+                    $('#products').products_autowidth();
+                });
+                $( document ).ready(function() {
+                    $('#products').products_autowidth();
+                });
+    script.
+        $('.item_add').on('click', function () {
+           var name = $( this ).attr("data-item-name");
+           var code = $( this ).attr("data-item-code");
+           var price = $( this ).attr("data-item-price");
+           var thumb = $( this ).attr("data-item-thumb");
+           
+           vex.dialog.alert(
+                  '<br><div class="text-center"><h2><strong>Украшение добавлено в корзину</strong></h2><br><img class="order-item-thumb" src="'+ thumb +'"/><div class="order-item-code">'+ code +'</div><div class="order-item-name">'+ name +'</div><div class="text-center"><span class="order-item-small">от</span><span class="order-item-price"> '+ price +'</span><span class="order-item-small"> грн</span></div></div>'
+                );
+        });
+
+
+  

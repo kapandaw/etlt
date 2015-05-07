@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Fira Sans Hair';
+    src: url('firasans-hair.eot');
+    src: url('firasans-hair.eot?#iefix') format('embedded-opentype'),
+         url('firasans-hair.woff') format('woff'),
+         url('firasans-hair.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Fira Sans Medium';
+    src: url('firasans-medium.eot');
+    src: url('firasans-medium.eot?#iefix') format('embedded-opentype'),
+         url('firasans-medium.woff') format('woff'),
+         url('firasans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Fira Sans ExtraLight';
+    src: url('firasans-extralight.eot');
+    src: url('firasans-extralight.eot?#iefix') format('embedded-opentype'),
+         url('firasans-extralight.woff') format('woff'),
+         url('firasans-extralight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

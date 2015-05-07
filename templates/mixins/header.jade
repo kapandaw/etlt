@@ -1,0 +1,104 @@
+mixin header()
+    #header 
+        .img-abs.necklace.hidden-xs
+        .container.hidden-xs
+            .row.top.text-center
+                .container
+                    div(role="navigation").navbar.navbar-default#navbar-top
+                        ul.nav.navbar-nav
+                            li: a(href='/') 
+                                small:.label.label-default(style="background-color:#ddd;padding:0px 2px;margin-right:5px;") Скоро!
+                                span  Аренда
+                            li: a(href='/') 
+                                span  Магазин материалов 
+                            
+
+                        ul.nav.navbar-nav.navbar-right
+                            li.space
+                            li.dropdown
+                                a(data-toggle="dropdown", aria-haspopup="true", aria-expanded="false", data-target="#", href='#')
+                                    i.fa.fa-comment-o
+                                    span  Информация
+                                    span.caret
+                                ul.dropdown-menu(role="menu" aria-labelledby="dropdownMenu3")
+                                    li(role="presentation"): a(role="menuitem" tabindex="-1" href='/delivery-details') 
+                                        i.fa.fa-bicycle
+                                        span.padding Детали о доставке
+                                    li(role="presentation"): a(role="menuitem" tabindex="-1" href='/payment-details') 
+                                        i.fa.fa-credit-card
+                                        span.padding Детали об оплате
+                                    li(role="presentation"): a(role="menuitem" tabindex="-1" href='/order-details') 
+                                        i.fa.fa-paper-plane-o
+                                        span.padding Детали о заказе
+                                    li(role="presentation"): a(role="menuitem" tabindex="-1" href='/faq') 
+                                        i.fa.fa-comments-o
+                                        span.padding Частые вопросы
+                            li
+                                .kite--justify(style="margin-top:-3px;")
+                                    .kite__item(style='margin-right:5px;'): a.black(href="mailto:dashamatsay@gmail.com"): i.fa.fa-envelope-o.fa-2x
+                                    .kite__item: a.black(href="http://fb.com/etltjewelry"): i.fa.fa-facebook-square.fa-2x
+                                    .kite__item: a.black(href="http://vk.com/etltjewelry"): i.fa.fa-vk.fa-2x
+                                    .kite__item: a.black(href="http://instagram.com/etltjewelry"): i.fa.fa-instagram.fa-2x
+                            li.space      
+
+        .container
+            .row(style="padding-top:15px")
+                .col-lg-1.col-md-1.col-sm-1
+                    #menu-left.hidden-xs
+                        a.brand(href='/') 
+                            .left ETLT
+                            .right jewelry
+                .col-lg-11.col-md-11.col-sm-11.col-xs-12: div(role="navigation").navbar.navbar-default#navbar-main.no-margin: .container-fluid
+                        
+                    .navbar-header
+                        button.navbar-toggle.cart-toggle#showRightPush(type='button')
+                            i.fa.fa-inbox
+                        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        
+                        a.navbar-brand(href='/').hidden-lg.hidden-md.hidden-sm
+                            span.left etlt 
+                    
+                    .collapse.navbar-collapse
+                        ul.nav.navbar-nav.nav-justified
+                            each link in navLinks
+                                if (link.key!='home')
+                                    if (link.href)
+                                        li#menu-item(class=(section == link.key ? 'active' : null))
+                                            if (link.key!='shop')
+                                                a(href=link.href):= __(link.label)
+                                            else 
+                                                a.shop(href=link.href):= __(link.label)
+                                    else
+                                        li.dropdown#menu-item(class=(section == link.key ? 'active' : null))
+                                            a(data-toggle="dropdown", aria-haspopup="true", aria-expanded="false", data-target="#")
+                                                span:= __(link.label)
+                                                span.caret
+                                            ul.dropdown-menu(role="menu" aria-labelledby="dropdownMenu3")
+                                                each link1 in link.items
+                                                    li(role="presentation")
+                                                        a(role="menuitem" tabindex="-1" href=link1.href):= __(link1.label)
+
+                        
+                            if section=='shop' || section=='product'
+                                li#menu-item.dropdown.pull-right.hidden-xs
+                                    button#cd-cart-trigger.dropdown-toggle.btn.btn-lg.btn-default(href="/checkout/", data-toggle="dropdown", role="button", aria-expanded="false")
+                                        span:=__('Cart')
+                                        span.caret
+                                        span.badge.simpleCart_quantity.margin-left-10
+                                        
+                                    .dropdown-menu(role="menu",style="padding:5px")
+                                        +cart()
+                            else if section!= 'home'
+                                li#menu-item.pull-right.hidden-xs
+                                    a.btn.btn-lg.btn-default(href="/checkout/")
+                                        span:=__('Cart')
+                            
+                                        
+                                    
+        br
+        br           
+            

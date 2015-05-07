@@ -1,0 +1,74 @@
+extends ../layouts/default
+
+block intro
+    .container
+        h1 Gallery
+        hr
+        br
+    
+block content
+    .container#links
+        if galleries.length
+            each gallery in galleries
+                h2= gallery.name
+                //- if gallery.publishedDate
+                //-     h4.text-muted= gallery._.publishedDate.format('Do MMM YYYY')
+                
+                .row
+                    .gallery-images
+                        if gallery.heroImage.exists
+                            .col-md-4.col-xs-12.text-center.gallery-image.margin-top-10.margin-bottom-30
+                                a(href=gallery._.heroImage.src(), title=gallery.name)
+                                    img(src=gallery._.heroImage.fill(400,300))
+                            .col-md-7.col-md-offset-1.col-xs-12
+                                .kite--justify
+                                    each image in gallery.images
+                                        .kite__item.gallery-image(style="margin:10px")
+                                            a(href=image.src(), title=gallery.name)
+                                                img(src=image.fill(81,60))
+                        else
+                            .kite--center
+                            each image in gallery.images
+                                .kite__item.gallery-image(style="margin:10px") 
+                                    a(href=image.src(), title=gallery.name)
+                                        img(src=image.fill(81,60))
+                br
+                br
+                hr.hr1
+        else
+            h3.text-muted There are no image galleries yet.
+
+    br
+    br
+block gallery
+    #blueimp-gallery.blueimp-gallery.blueimp-gallery-controls
+        .slides
+        h3.title
+        a.prev ‹
+        a.next ›
+        a.close ×
+        a.play-pause
+        ol.indicator
+        .modal.fade
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button(type="button", class="close", aria-hidden="true") ×
+                        h4.modal-title
+                    .modal-body.next
+                    .modal-footer
+                        button(type="button", class="btn btn-default pull-left prev")
+                            i.glyphicon.glyphicon-chevron-left
+                            span  Previous
+                        button(type="button", class="btn btn-primary next")
+                            span Next
+                            i.glyphicon.glyphicon-chevron-right
+
+block js
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+    
+    link(href="/styles/vendor/blueimp/css/blueimp-gallery.min.css", rel="stylesheet")
+    script(src='/styles/vendor/blueimp/js/blueimp-gallery.min.js')
+    script(src='/js/gallery.js')
+    script.
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");

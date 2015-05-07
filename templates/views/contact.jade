@@ -1,0 +1,81 @@
+extends ../layouts/default
+
+block css
+    style.
+        .back1{
+            position:absolute;
+            top:50px;
+            left:-40px;
+            display:block;
+            width:512px;
+            height:512px;
+            background:transparent url(../../images/send.png) no-repeat 10% 10%;
+            background-size:70%;
+        }
+        .transparent{
+            background-color:rgba(255,255,255,0.8);
+            padding:15px;
+        }
+
+block intro
+    
+    //- .container
+        h1:=__('Contact Us') 
+        
+block content
+    .container(style='')
+        if enquirySubmitted
+            h3:=__('Thanks for getting in touch.')
+        else
+            .row: .col-sm-12
+                h1:=__('Contact Us') 
+                hr
+                br
+                
+                //- .col-sm-2
+                //-     img.img-responsive(src="../../images/iphone.png", alt='Iphone')
+                .col-sm-8.col-md-8.col-sm-offset-2.col-md-offset-2
+                    .transparent
+                        h4 Привет! 
+
+                        p У вас есть вопросы касательно изделий ETLT jewelry? Вы хотели бы заказать украшение, но не до конца продумали его дизайн? Просто отправьте мне сообщение используя форму справа, и я с радостью отвечу на ваш имейл! 
+                    br
+                    
+                    form(method='post').boxed
+                        input(type='hidden', name='action', value='contact')
+                        .form-group(class=validationErrors.name ? 'has-error' : null)
+                            label:=__('Name')
+                            input(type='text', name='name.full', value=formData['name.full'], required).form-control
+                        .form-group(class=validationErrors.email ? 'has-error' : null)
+                            label:=__('Email')
+                            input(type='email', name='email', value=formData.email, required).form-control
+                        .form-group
+                            label:=__('Phone')
+                            input(type='text', name='phone', value=formData.phone, placeholder='(optional)').form-control
+                        .form-group(class=validationErrors.enquiryType ? 'has-error' : null)
+                            label:=__('What are you contacting us about?')
+                            select(name='enquiryType').form-control
+                                option(value='') (select one)
+                                each type in enquiryTypes
+                                    option(value=type.value, selected=formData.enquiryType == type.value)= type.label
+                        .form-group(class=validationErrors.message ? 'has-error' : null)
+                            label:=__('Message')
+                            textarea(name='message', rows=4).form-control= formData.message
+                        .form-actions
+                            button(type='submit').btn.btn-md.btn-block.btn-primary.send
+                                i.glyphicon.glyphicon-send.margin-top-5.margin-right-20
+                                span:=__('Send')
+
+                        br
+                        hr.hr1
+                        p
+                            .kite.kite--center
+                                .kite__item: a.black(href="http://fb.com/etltjewelry"): i.fa.fa-facebook-square.fa-3x
+                                .kite__item: a.black(href="http://vk.com/etltjewelry"): i.fa.fa-vk.fa-3x
+                                .kite__item: a.black(href="http://instagram.com/etltjewelry"): i.fa.fa-instagram.fa-3x
+block js
+    //- script(src="/js/vendor/backstretch/jquery.backstretch.min.js")
+
+    script.
+        //- $.backstretch("http://dl.dropbox.com/u/515046/www/garfield-interior.jpg");
+                    
