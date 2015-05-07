@@ -22,7 +22,7 @@ keystone.init({
     'name': 'ETLT',
     'brand': 'ETLT',
 
-    // 'mongo': 'mongodb://localhost:27017/heroku_app33470451',
+ 
 
     'less': 'public',
     'static': 'public',
